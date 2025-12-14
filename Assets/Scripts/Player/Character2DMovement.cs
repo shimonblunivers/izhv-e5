@@ -212,7 +212,16 @@ public class Character2DMovement : MonoBehaviour
 	     *   * Persistent heading flag: *mHeadingRight*
 	     *   * Rotating a local rotation by an axis: localRotation *= Quaternion.Euler(...)
 	     */
-	    
+
+		if (mController.velocity.x > 0f)
+		{
+			gameObject.transform.localRotation = Quaternion.Euler(0, 0, 0); 
+		}
+		else if (mController.velocity.x < 0f)
+		{
+			gameObject.transform.localRotation = Quaternion.Euler(0, 180, 0); 
+		}
+
 	    var animator = mSelector.charAnimator;
 	    if (animator != null)
 	    {
@@ -227,6 +236,12 @@ public class Character2DMovement : MonoBehaviour
 			var jump = mInput.jump;
 			var falling = !mController.isGrounded && mFallTimeoutDelta <= 0.0f;
 
+			animator.SetFloat("Speed", speed);
+			animator.SetFloat("MoveSpeed", moveSpeed);
+			animator.SetBool("Crouch", crouch);
+			animator.SetBool("Grounded", grounded);
+			animator.SetBool("Jump", jump);
+			animator.SetBool("Fall", falling);
 			/*
 			 * Task #1a: Passing properties to the Animator
 			 * 
